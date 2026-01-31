@@ -8,7 +8,7 @@ const expenseSchema = new mongoose.Schema(
     expenseCategory: { type: String, required: true },
     expenseDate: { type: Date, required: true },
   },
-  { timestamps: true } // Automatically manage createdAt and updatedAt fields
+  { timestamps: true },
 );
 // Create the Expense model
 const Expense = mongoose.model("Expense", expenseSchema);

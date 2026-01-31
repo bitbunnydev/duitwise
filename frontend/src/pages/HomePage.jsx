@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { X, Trash2 } from "lucide-react";
+import MobileNavbar from "../components/MobileNavbar";
+// Importing your utility functions
+import {
+  formatCurrency,
+  formatDate,
+  getCategoryIcon,
+} from "../utils/formatters";
 
 const HomePage = () => {
-  //1. State variables
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState({
     expenseDesc: "",
     expenseAmount: "",
     expenseCategory: "Food",
-    expenseDate: "",
+    expenseDate: new Date().toISOString().split("T")[0],
   });
-  //2. Configurations
+
   const API_URL = "http://localhost:5000/api/expenses";
-  //3. Functions
-  //Fetch all expenses
+
   const getAllExpenses = async () => {
     try {
       setLoading(true);
@@ -23,52 +30,73 @@ const HomePage = () => {
       setExpenses(response.data);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch expenses data");
+      toast.error("Error fetching expenses");
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getAllExpenses();
   }, []);
-  //Handle typing in inputs
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  //Submit or Create expense
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      !formData.expenseDesc ||
+      !formData.expenseAmount ||
+      !formData.expenseDate
+    ) {
+      toast.error("Please fill in all fields!");
+      return;
+    }
+
     try {
       const response = await axios.post(API_URL, formData);
       if (response.status === 201) {
-        toast.success("Expense added!");
+        toast.success("Expense added! 🎉");
         getAllExpenses();
+        // Reset form
         setFormData({
           expenseDesc: "",
           expenseAmount: "",
           expenseCategory: "Food",
-          expenseDate: "",
+          expenseDate: new Date().toISOString().split("T")[0],
         });
+        setIsFormOpen(false);
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Failed tp add expense");
+      toast.error("Failed to add expense");
     }
   };
-  //Delete expense
+
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure want to delete this expense?")) return;
+    if (!window.confirm("Are you sure you want to delete this?")) return;
     try {
       await axios.delete(`${API_URL}/${id}`);
-      toast.success("Expense deleted!");
-      getAllExpenses();
+      toast.success("Deleted successfully 🗑️");
+      setExpenses(expenses.filter((item) => item._id !== id));
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to delete expense");
+      toast.error("Failed to delete");
     }
   };
-  //4. UI
+
+  //Avoid NaN errors
+  const totalAmount = expenses.reduce(
+    (acc, curr) => acc + Number(curr.expenseAmount || 0),
+    0,
+  );
+
+  return (
+    <div>
+      <Toaster />
+    </div>
+  );
 };
 
 export default HomePage;
