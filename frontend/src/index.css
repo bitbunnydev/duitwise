@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+@theme {
+  /* Cute Palette */
+  --color-primary: #6366f1; /* Friendly Indigo */
+  --color-primary-soft: #eef2ff;
+  --color-secondary: #f43f5e; /* Soft Rose/Pink */
+  --color-accent: #f59e0b; /* Honey Amber */
+
+  /* Backgrounds */
+  --color-app-bg: #fdfdff; /* Cloud White */
+  --color-card: #ffffff;
+
+  /* Typography & Shapes */
+  --radius-cute: 2rem; /* Extra rounded corners */
+  --shadow-cute: 0 10px 25px -5px rgba(99, 102, 241, 0.1);
+
+  /* Animations */
+  --keyframes-pop: {
+    0% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  };
+  --animation-pop: pop 0.3s ease-out;
+
+  --keyframes-slide-up: {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  };
+  --animation-slide-up: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --keyframes-bounce-subtle: {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  };
+  --animation-bounce-subtle: bounce-subtle 3s ease-in-out infinite;
+}

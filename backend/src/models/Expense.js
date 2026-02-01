@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 const expenseSchema = new mongoose.Schema(
   {
     expenseDesc: { type: String, required: true },
-    expenseAmount: { type: Number, required: true },
+    expenseAmount: {
+      type: Number,
+      required: true,
+      min: [0.01, "Expense must be at least 0.01"],
+    },
     expenseCategory: { type: String, required: true },
     expenseDate: { type: Date, required: true },
   },

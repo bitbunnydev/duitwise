@@ -11,16 +11,11 @@ export const formatDate = (dateString) => {
 };
 
 export const getCategoryIcon = (category) => {
-  switch (category) {
-    case "Food":
-      return "🍔";
-    case "Transport":
-      return "🚗";
-    case "Utilities":
-      return "💡";
-    case "Entertainment":
-      return "🎬";
-    default:
-      return "✨";
-  }
+  const icons = {
+    Food: "🍔",
+    Transport: "🚗",
+    Utilities: "💡",
+    Entertainment: "🎬",
+  };
+  return icons[category] || "✨";
 };

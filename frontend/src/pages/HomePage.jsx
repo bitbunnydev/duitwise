@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { X, Trash2 } from "lucide-react";
+import {
+  Wallet,
+  ReceiptText,
+  Trash2,
+  Loader2,
+  TrendingDown,
+  Sparkles,
+  Plus,
+} from "lucide-react";
 import MobileNavbar from "../components/MobileNavbar";
-// Importing your utility functions
+import ExpenseForm from "../components/ExpenseForm";
 import {
   formatCurrency,
   formatDate,
@@ -20,9 +28,10 @@ const HomePage = () => {
     expenseCategory: "Food",
     expenseDate: new Date().toISOString().split("T")[0],
   });
-
+  //Configuration
   const API_URL = "http://localhost:5000/api/expenses";
 
+  //Functions
   const getAllExpenses = async () => {
     try {
       setLoading(true);
